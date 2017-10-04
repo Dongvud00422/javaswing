@@ -80,17 +80,17 @@ public class GetListStudent extends JPanel {
         public void mouseClicked(MouseEvent e) {
             int row = table.getSelectedRow();
             Student stu = listStudent.get(row);
-            OptionPopup popup = new OptionPopup(stu);
-          
-            if (popup.returnOperation() == 0){
+            PopupOption popup = new PopupOption();
+            popup.showPopupOption(stu);
+            System.out.println(popup.returnOperation());
+            if (popup.returnOperation() == 1) {
                 tableModel.removeRow(row);
-            } else if(popup.returnOperation() == 1){
-                Student updatedStu = popup.returnUpdated();
-                Object[] newData = new Object[]{updatedStu.getId(),updatedStu.getName(),updatedStu.getBirthday(),updatedStu.getPhone(),updatedStu.getEmail(),updatedStu.getClassName(),updatedStu.getRollNumber()};
-                tableModel.insertRow(row, newData);
-                tableModel.removeRow(row+1);
+            } else if (popup.returnOperation() == 2) {
+               // Student updatedStu = popup.returnUpdated();
+                //Object[] newData = new Object[]{updatedStu.getId(), updatedStu.getName(), updatedStu.getBirthday(), updatedStu.getPhone(), updatedStu.getEmail(), updatedStu.getClassName(), updatedStu.getRollNumber()};
+                //tableModel.insertRow(row, newData);
+                
             }
-           
         }
 
         @Override

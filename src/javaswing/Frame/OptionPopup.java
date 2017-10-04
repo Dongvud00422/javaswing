@@ -20,8 +20,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author dongvu
  */
-public class OptionPopup extends JFrame {
+public class OptionPopup {
 
+    private JFrame frame;
     private JTable table;
     private Vector colName;
     private Vector data;
@@ -32,10 +33,10 @@ public class OptionPopup extends JFrame {
     private Student reStudent;
     private int operator;
 
-    public OptionPopup(Student student) {
-
-        this.setTitle("Edit");
-        this.setLayout(null);
+    public void showOptionPopup(Student student) {
+        frame = new JFrame("Option");
+       
+        frame.setLayout(null);
         table = new JTable();
         btnDelete = new JButton("Delete");
         btnDelete.addActionListener(new deleteHandle(student.getId()));
@@ -67,13 +68,13 @@ public class OptionPopup extends JFrame {
 
         table.setModel(new DefaultTableModel(data, colName));
         table.setSize(950, 170);
-        this.add(btnUpdate);
-        this.add(btnDelete);
-        this.add(table);
-        this.setSize(950, 240);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setVisible(true);
+        frame.add(btnUpdate);
+        frame.add(btnDelete);
+        frame.add(table);
+        frame.setSize(950, 240);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
 
     }
 
@@ -93,19 +94,19 @@ public class OptionPopup extends JFrame {
                 JOptionPane.showMessageDialog(null, "* Can not change id");
                 vector.set(0, "abc");
             } else {
-                student.setId(vector.get(0).hashCode());
-            }
 
-            student.setName(vector.get(0).toString());
-            student.setBirthday(vector.get(0).toString());
-            student.setPhone(vector.get(0).toString());
-            student.setEmail(vector.get(0).toString());
-            student.setClassName(vector.get(0).toString());
-            student.setRollNumber(vector.get(0).toString());
+            }
+            student.setId(vector.get(0).hashCode());
+            student.setName(vector.get(1).toString());
+            student.setBirthday(vector.get(1).toString());
+            student.setPhone(vector.get(3).toString());
+            student.setEmail(vector.get(4).toString());
+            student.setClassName(vector.get(5).toString());
+            student.setRollNumber(vector.get(6).toString());
 
             studentModel.updateStudent(student);
             reStudent = student;
-            operator = 1;
+            operator = 2;
         }
     }
 
@@ -120,7 +121,8 @@ public class OptionPopup extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             studentModel.deleteStudent(id);
-            operator = 0;
+            operator = 1;
+            frame.dispose();
         }
     }
 

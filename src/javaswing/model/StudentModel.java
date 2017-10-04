@@ -8,6 +8,7 @@ package javaswing.model;
 import javaswing.entity.Student;
 import java.sql.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -75,6 +76,7 @@ public class StudentModel {
             preStt.execute();
 
             System.out.println("-- Add student success --");
+            JOptionPane.showMessageDialog(null, "Insert student infomation success !! ");
         } catch (SQLException ex) {
             System.err.println("Add student erorr !!!\n" + ex.getMessage());
         }
@@ -93,6 +95,7 @@ public class StudentModel {
 
             preStt.execute();
             System.out.println("-- Edit student success --");
+            JOptionPane.showMessageDialog(null, "Update student infomation success !! ");
         } catch (SQLException ex) {
             System.err.println("Update student erorr !!!\n" + ex.getMessage());
         }
@@ -104,6 +107,7 @@ public class StudentModel {
             preStt.setLong(1, id);
             preStt.execute();
             System.out.println("-- Delete student success --");
+            JOptionPane.showMessageDialog(null, "Delete student infomation success !! ");
         } catch (SQLException ex) {
             System.err.println("Delete student erorr !!!\n" + ex.getMessage());
         }
