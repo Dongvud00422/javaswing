@@ -60,8 +60,6 @@ public class prepareGUI extends JFrame {
 
         this.panelContent = new JPanel();
         this.panelContent.setLayout(cardLayout);
-        AddStudent addStu = new AddStudent();
-        GetListStudent getListStu = new GetListStudent();
 
         try {
             landing = new JPanel();
@@ -70,21 +68,33 @@ public class prepareGUI extends JFrame {
         } catch (IOException ex) {
             System.out.println("Set background Failed " + ex.getMessage());
         }
+
         this.panelContent.add(landing, "1");
-        this.panelContent.add(addStu, "2");
-        this.panelContent.add(getListStu, "3");
-        
+
+        this.panelContent.add(new AddStudent(), "2");
+
+        panelContent.add(new GetListStudent(), "3");
+
         this.cardLayout.show(panelContent, "1");
 
         this.add(panelContent);
+
         this.menu.add(add);
+
         this.menu.add(edit);
+
         this.menu.add(delete);
+
         this.menu.add(getList);
+
         this.menubar.add(menu);
+
         this.setJMenuBar(menubar);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+
+        this.setVisible(
+                true);
 
     }
 

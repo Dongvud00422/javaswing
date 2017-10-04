@@ -5,6 +5,8 @@
  */
 package javaswing.Frame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -22,10 +24,11 @@ public class GetListStudent extends JPanel {
     private JTable table;
     private JScrollPane scroll;
     private ArrayList<Student> listStudent;
+    private DefaultTableModel tableModel;
 
     public GetListStudent() {
         // Tao khung cho bang.
-        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel();
         table = new JTable() {
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -33,6 +36,7 @@ public class GetListStudent extends JPanel {
         };
 
         listStudent = new StudentModel().getListStudent();
+
         int count = 0;
         Long[] id = new Long[listStudent.size()];
         String[] name = new String[listStudent.size()];
@@ -77,6 +81,16 @@ public class GetListStudent extends JPanel {
             int row = table.getSelectedRow();
             Student stu = listStudent.get(row);
             OptionPopup popup = new OptionPopup(stu);
+          
+            if (popup.returnOperation() == 0){
+                tableModel.removeRow(row);
+            } else if(popup.returnOperation() == 1){
+                Student updatedStu = popup.returnUpdated();
+                Object[] newData = new Object[]{updatedStu.getId(),updatedStu.getName(),updatedStu.getBirthday(),updatedStu.getPhone(),updatedStu.getEmail(),updatedStu.getClassName(),updatedStu.getRollNumber()};
+                tableModel.insertRow(row, newData);
+                tableModel.removeRow(row+1);
+            }
+           
         }
 
         @Override

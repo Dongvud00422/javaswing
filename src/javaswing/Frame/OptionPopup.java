@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import javaswing.entity.Student;
+import javaswing.model.StudentModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -27,6 +28,9 @@ public class OptionPopup extends JFrame {
     private Vector stu;
     private JButton btnDelete;
     private JButton btnUpdate;
+    protected StudentModel studentModel = new StudentModel();
+    private Student reStudent;
+    private int operator;
 
     public OptionPopup(Student student) {
 
@@ -34,8 +38,9 @@ public class OptionPopup extends JFrame {
         this.setLayout(null);
         table = new JTable();
         btnDelete = new JButton("Delete");
+        btnDelete.addActionListener(new deleteHandle(student.getId()));
         btnUpdate = new JButton("Update Information");
-        btnUpdate.addActionListener(new updateHandle());
+        btnUpdate.addActionListener(new updateHandle(student.getId()));
         colName = new Vector();
         data = new Vector();
         this.stu = new Vector();
@@ -59,7 +64,7 @@ public class OptionPopup extends JFrame {
         stu.add(student.getClassName());
         stu.add(student.getRollNumber());
         data.add(stu);
-        
+
         table.setModel(new DefaultTableModel(data, colName));
         table.setSize(950, 170);
         this.add(btnUpdate);
@@ -74,12 +79,56 @@ public class OptionPopup extends JFrame {
 
     private class updateHandle implements ActionListener {
 
+        private long id;
+
+        public updateHandle(long id) {
+            this.id = id;
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             Vector vector = (Vector) data.get(table.getSelectedRow());
-            int id = vector.get(0).hashCode();
-            JOptionPane.showConfirmDialog(null, id);
+            Student student = new Student();
+            if (!(vector.get(0).hashCode() == id)) {
+                JOptionPane.showMessageDialog(null, "* Can not change id");
+                vector.set(0, "abc");
+            } else {
+                student.setId(vector.get(0).hashCode());
+            }
 
+            student.setName(vector.get(0).toString());
+            student.setBirthday(vector.get(0).toString());
+            student.setPhone(vector.get(0).toString());
+            student.setEmail(vector.get(0).toString());
+            student.setClassName(vector.get(0).toString());
+            student.setRollNumber(vector.get(0).toString());
+
+            studentModel.updateStudent(student);
+            reStudent = student;
+            operator = 1;
         }
+    }
+
+    private class deleteHandle implements ActionListener {
+
+        private long id;
+
+        public deleteHandle(long id) {
+            this.id = id;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            studentModel.deleteStudent(id);
+            operator = 0;
+        }
+    }
+
+    public int returnOperation() {
+        return operator;
+    }
+
+    public Student returnUpdated() {
+        return reStudent;
     }
 }
